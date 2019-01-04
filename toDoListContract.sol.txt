@@ -1,0 +1,28 @@
+pragma solidity ^0.5.2;
+
+contract toDoListContract {
+
+  struct toDoListStruct {
+    string toDoItem;
+    uint toDoCount;
+  }
+
+  toDoListStruct[] toDoListStructs;
+  mapping(address => toDoListStruct) toDoListStructRow;
+
+  function saveToDoListItem(string memory toDoItemVal) public returns(uint rowNumber) {
+    toDoListStruct memory newEntity;
+    newEntity.toDoItem = toDoItemVal;
+    newEntity.toDoCount = getToDoListCount() + 1;
+    return toDoListStructs.push(newEntity)-1;
+  }
+
+  function getToDoListCount() public view returns(uint entityCount) {
+    return toDoListStructs.length;
+  }
+
+  function getToDoListItem(address id) public view returns (string memory toDoItemVal, uint rownum) {
+     toDoListStruct memory t = toDoListStructRow[id];
+     return (t.toDoItem, t.toDoCount);
+  }
+}
